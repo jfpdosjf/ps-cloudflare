@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="5">
+<title>در حال آماده‌سازی…</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f2f4f1; --ink:#11201e; --mute:#52625f; --acc:#0b7a6a; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0e1716; --ink:#e3efec; --mute:#92a8a3; --acc:#4fd1b9; } }
+  html,body { height:100%; margin:0; }
+  body { display:grid; place-items:center; background:var(--bg); color:var(--ink);
+         font-family: Vazirmatn, Tahoma, system-ui, sans-serif; text-align:center; padding:1.5rem; }
+  h1 { font-size:1.25rem; margin:0 0 .5rem; }
+  p { margin:0; color:var(--mute); }
+  .bar { width:11rem; height:3px; margin:1.25rem auto 0; background:color-mix(in srgb, var(--acc) 20%, transparent); overflow:hidden; border-radius:2px; }
+  .bar::after { content:""; display:block; height:100%; width:40%; background:var(--acc); animation:go 1.4s ease-in-out infinite; }
+  @keyframes go { from { transform:translateX(-100%); } to { transform:translateX(280%); } }
+  @media (prefers-reduced-motion: reduce) { .bar::after { animation:none; width:100%; } }
+</style>
+</head>
+<body>
+  <main>
+    <h1>پنل در حال بالا اومدنه</h1>
+    <p>اولین راه‌اندازی تا دو دقیقه طول می‌کشه. صفحه خودش تازه میشه.</p>
+    <div class="bar" role="progressbar" aria-label="در حال آماده‌سازی"></div>
+  </main>
+</body>
+</html>

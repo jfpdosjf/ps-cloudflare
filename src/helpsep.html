@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>راهنمای نصب و استفاده</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f2f4f1;
+    --surface: #ffffff;
+    --ink: #11201e;
+    --mute: #52625f;
+    --line: #d5dcd8;
+    --acc: #0b7a6a;
+    --acc-ink: #ffffff;
+    --warn-bg: #fbf0dc;
+    --warn-ink: #6b3f06;
+    --code-bg: #0e1a19;
+    --code-ink: #d7ece7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0c1413;
+      --surface: #131e1c;
+      --ink: #e3efec;
+      --mute: #92a8a3;
+      --line: #263634;
+      --acc: #4fd1b9;
+      --acc-ink: #06201b;
+      --warn-bg: #2c2210;
+      --warn-ink: #f0cf93;
+      --code-bg: #08100f;
+      --code-ink: #cfe7e1;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: Vazirmatn, Tahoma, system-ui, sans-serif;
+    line-height: 1.95; font-size: 1rem;
+  }
+  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+  header { margin-bottom: 2.25rem; }
+  h1 { font-size: 1.9rem; line-height: 1.4; margin: 0 0 .5rem; font-weight: 700; }
+  .lead { color: var(--mute); margin: 0; max-width: 38rem; }
+
+  .status {
+    display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.25rem;
+    padding: .45rem .9rem; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--surface); font-size: .92rem;
+  }
+  .dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--mute); }
+  .status[data-s="up"] .dot { background: var(--acc); }
+  .status[data-s="down"] .dot { background: #c2410c; }
+
+  nav { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; margin: 0 0 2.5rem; padding: 0; list-style: none; font-size: .95rem; }
+  nav a { color: var(--ink); text-decoration-color: var(--line); text-underline-offset: .3em; }
+  nav a:hover { text-decoration-color: var(--acc); }
+
+  h2 { font-size: 1.3rem; margin: 3rem 0 .75rem; font-weight: 700; scroll-margin-top: 1rem; }
+  h3 { font-size: 1.05rem; margin: 1.75rem 0 .25rem; font-weight: 700; }
+  p { margin: .5rem 0; max-width: 40rem; }
+  ul { padding-inline-start: 1.25rem; max-width: 40rem; }
+  li { margin: .25rem 0; }
+
+  /* مراحل نصب یک توالی واقعی‌ان، پس شماره دارن */
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 1.25rem 0; }
+  ol.steps > li {
+    counter-increment: s; position: relative; margin: 0; padding: 0 3rem 1.75rem 0;
+    border-inline-start: 0;
+  }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; right: 0; top: .15rem;
+    width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center;
+    background: var(--acc); color: var(--acc-ink); font-weight: 700; font-size: .95rem;
+  }
+  ol.steps > li::after {
+    content: ""; position: absolute; right: calc(1rem - 1px); top: 2.4rem; bottom: .35rem;
+    width: 2px; background: var(--line);
+  }
+  ol.steps > li:last-child::after { display: none; }
+  ol.steps strong { display: block; font-size: 1.05rem; }
+
+  .code { position: relative; margin: .75rem 0; direction: ltr; }
+  pre {
+    margin: 0; padding: .9rem 1rem; overflow-x: auto; border-radius: 6px;
+    background: var(--code-bg); color: var(--code-ink);
+    font: 0.88rem/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-align: left;
+  }
+  .copy {
+    position: absolute; top: .4rem; right: .4rem; border: 1px solid #ffffff2e; background: #ffffff14;
+    color: var(--code-ink); font: inherit; font-size: .78rem; padding: .15rem .6rem; border-radius: 4px; cursor: pointer;
+  }
+  .copy:hover { background: #ffffff26; }
+  .copy:focus-visible, a:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
+  code.i { direction: ltr; unicode-bidi: isolate; background: color-mix(in srgb, var(--acc) 12%, transparent); padding: .05rem .4rem; border-radius: 4px; font-size: .9em; }
+
+  .note { margin: 1.25rem 0; padding: .9rem 1.1rem; border-radius: 6px; background: var(--warn-bg); color: var(--warn-ink); max-width: 40rem; }
+  .note b { display: block; margin-bottom: .1rem; }
+
+  table { border-collapse: collapse; width: 100%; max-width: 40rem; font-size: .95rem; }
+  th, td { text-align: right; padding: .55rem .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 500; color: var(--mute); }
+
+  footer { margin-top: 4rem; color: var(--mute); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>راهنمای نصب و استفاده</h1>
+  <p class="lead">پنل PasarGuard با هسته‌ی Xray روی Cloudflare. نصب یک‌بار انجام میشه و بعدش خودش بالا میاد، ساخت کانفیگ‌ها رو خودش انجام میده و از دیتابیس بکاپ می‌گیره.</p>
+  <div class="status" id="st" data-s="unknown" aria-live="polite"><span class="dot"></span><span id="stt">در حال بررسی وضعیت…</span></div>
+</header>
+
+<nav aria-label="فهرست">
+  <a href="#need">پیش‌نیاز</a>
+  <a href="#install">نصب</a>
+  <a href="#login">ورود به پنل</a>
+  <a href="#users">ساخت کاربر</a>
+  <a href="#domain">دامنه‌ی اختصاصی</a>
+  <a href="#update">آپدیت و بکاپ</a>
+  <a href="#trouble">مشکل‌ها</a>
+</nav>
+
+<h2 id="need">پیش‌نیاز</h2>
+<ul>
+  <li>حساب Cloudflare با پلن <b>Workers Paid</b> (ماهی ۵ دلار). Containers روی پلن رایگان کار نمی‌کنه.</li>
+  <li>روی کامپیوترت: Node.js نسخه‌ی ۲۰ یا بالاتر، Git و Docker (Docker باید روشن باشه، wrangler باهاش ایمیج رو می‌سازه).</li>
+  <li>یا اگه نمی‌خوای چیزی نصب کنی: یک حساب GitHub، دیپلوی رو GitHub Actions انجام میده (روش ب پایین).</li>
+</ul>
+
+<h2 id="install">نصب</h2>
+
+<h3>روش الف: یک دستور از کامپیوتر</h3>
+<ol class="steps">
+  <li>
+    <strong>پروژه رو بگیر</strong>
+    <div class="code"><pre>git clone &lt;آدرس-ریپوی-خودت&gt; sepnet-cf
+cd sepnet-cf</pre><button class="copy" type="button">کپی</button></div>
+  </li>
+  <li>
+    <strong>اسکریپت نصب رو اجرا کن</strong>
+    <p>توکن API و Account ID رو ازت می‌پرسه. بعدش همه‌چیز خودکاره: بررسی توکن، ساخت فضای بکاپ، ساخت ایمیج، دیپلوی و چاپ آدرس و یوزر و رمز.</p>
+    <div class="code"><pre>./install.sh</pre><button class="copy" type="button">کپی</button></div>
+  </li>
+  <li>
+    <strong>آدرس رو باز کن</strong>
+    <p>آخر اسکریپت آدرس چیزی شبیه <code class="i">sepnet.&lt;اسم-تو&gt;.workers.dev</code> چاپ میشه. اولین بالا اومدن تا دو دقیقه طول می‌کشه و صفحه‌ی «پنل در حال بالا اومدنه» رو می‌بینی.</p>
+  </li>
+</ol>
+
+<h3>روش ب: بدون نصب چیزی، با GitHub Actions</h3>
+<ol class="steps">
+  <li>
+    <strong>ریپو رو Fork کن</strong>
+    <p>یا خودت یک ریپوی خصوصی بساز و فایل‌ها رو توش بذار.</p>
+  </li>
+  <li>
+    <strong>دو Secret اضافه کن</strong>
+    <p>توی Settings ← Secrets and variables ← Actions:</p>
+    <table>
+      <tr><th>اسم</th><th>از کجا بیارم</th></tr>
+      <tr><td><code class="i">CLOUDFLARE_API_TOKEN</code></td><td>داشبورد Cloudflare ← My Profile ← API Tokens ← قالب «Edit Cloudflare Workers». دسترسی R2 هم اضافه کن.</td></tr>
+      <tr><td><code class="i">CLOUDFLARE_ACCOUNT_ID</code></td><td>سمت راست صفحه‌ی Workers &amp; Pages</td></tr>
+    </table>
+  </li>
+  <li>
+    <strong>یک Push بزن</strong>
+    <p>یا از تب Actions دکمه‌ی Run workflow رو بزن. از این به بعد هر Push خودکار دیپلوی میشه.</p>
+  </li>
+</ol>
+
+<h2 id="login">ورود به پنل</h2>
+<p>یوزر و رمز مالک موقع اولین اجرا خودکار ساخته میشه و تو فضای بکاپ نگه‌داری میشه. برای دیدنش:</p>
+<div class="code"><pre>npm run creds</pre><button class="copy" type="button">کپی</button></div>
+<p>خروجی یک JSON هست؛ مقدار <code class="i">user</code> و <code class="i">pass</code> رو بردار. بعد برو به:</p>
+<div class="code"><pre>__ORIGIN__/dashboard/</pre><button class="copy" type="button">کپی</button></div>
+<div class="note"><b>رمز رو عوض کن</b>رمز رو از داخل پنل عوض کن و فایل خروجی بالا رو جایی پخش نکن. توکن بکاپ هم داخل همون فایله.</div>
+
+<h2 id="users">ساخت کاربر و لینک اشتراک</h2>
+<ul>
+  <li>تو پنل، Users ← Create. یکی از قالب‌های آماده (۱۰ گیگ، ۳۰ گیگ، …) رو انتخاب کن یا حجم و تاریخ رو دستی بذار.</li>
+  <li>گروه <b>SEPNET</b> خودکار وصل میشه و پنج کانفیگ (VLESS، Trojan، VMess، HTTPUpgrade) تو لینک اشتراک قرار می‌گیره.</li>
+  <li>لینک اشتراک رو بده به کاربر. تو برنامه‌هایی مثل v2rayNG، Hiddify یا Streisand «افزودن از لینک اشتراک» رو بزنه.</li>
+</ul>
+<p>مسیر هر کانفیگ موقع نصب تصادفی ساخته میشه و بعد از ریستارت عوض نمیشه، پس لینک کاربرها سالم می‌مونه.</p>
+
+<h2 id="domain">دامنه‌ی اختصاصی</h2>
+<p>آدرس <code class="i">workers.dev</code> کار می‌کنه ولی بعضی اپراتورها فیلترش می‌کنن. اگه دامنه‌ای تو Cloudflare داری:</p>
+<ol class="steps">
+  <li>
+    <strong>فایل wrangler.jsonc رو باز کن</strong>
+    <p>خط‌های کامنت‌شده‌ی <code class="i">routes</code> رو از کامنت دربیار و دامنه‌ات رو بنویس، مثلاً <code class="i">panel.example.com</code>.</p>
+  </li>
+  <li>
+    <strong>دوباره دیپلوی کن</strong>
+    <div class="code"><pre>./deploy.sh</pre><button class="copy" type="button">کپی</button></div>
+  </li>
+  <li>
+    <strong>یک بار پنل رو با دامنه‌ی جدید باز کن</strong>
+    <p>سیستم دامنه رو از همین بازدید یاد می‌گیره، آدرس کانفیگ‌ها و لینک اشتراک رو عوض می‌کنه و کانفیگ‌های دامنه‌ی قبلی رو پاک می‌کنه.</p>
+  </li>
+</ol>
+
+<h2 id="update">آپدیت و بکاپ</h2>
+<ul>
+  <li><b>بکاپ:</b> هر دقیقه از دیتابیس و کلیدها یک نسخه تو R2 ذخیره میشه، فقط وقتی چیزی تغییر کرده باشه.</li>
+  <li><b>ریستور:</b> هر بار کانتینر دوباره بالا بیاد (آپدیت، ریستارت، خواب) آخرین نسخه خودکار برمی‌گرده. حداکثر یک دقیقه از آخرین تغییرها ممکنه از دست بره.</li>
+  <li><b>آپدیت پنل:</b> دوباره <code class="i">./deploy.sh</code> یا یک Push. ایمیج PasarGuard با <code class="i">latest</code> ساخته میشه؛ اگه نسخه‌ی ثابت می‌خوای تگ رو تو <code class="i">container/Dockerfile</code> بذار.</li>
+  <li><b>پاک کردن همه‌چیز و شروع تازه:</b> آبجکت <code class="i">data.tgz</code> رو از باکت <code class="i">sepnet-backup</code> حذف کن و کانتینر رو ریستارت کن.</li>
+</ul>
+
+<h2 id="trouble">مشکل‌ها</h2>
+<table>
+  <tr><th>علامت</th><th>کاری که بکن</th></tr>
+  <tr><td>دیپلوی ارور <code class="i">instance_type</code> میده</td><td>تو <code class="i">wrangler.jsonc</code> مقدار رو بذار <code class="i">basic</code>. حافظه‌ش کمتره و با کاربر زیاد کند میشه.</td></tr>
+  <tr><td>ارور Docker موقع دیپلوی</td><td>Docker Desktop رو روشن کن. روی مک M1/M2 باید ایمیج amd64 ساخته بشه، wrangler خودش حواسش هست.</td></tr>
+  <tr><td>صفحه‌ی «در حال بالا اومدن» بیشتر از ۵ دقیقه موند</td><td><code class="i">npx wrangler tail</code> رو اجرا کن و لاگ‌هایی که با <code class="i">[sepnet]</code> یا <code class="i">[bootstrap]</code> شروع میشن رو ببین.</td></tr>
+  <tr><td>پنل بالاست ولی کانفیگ‌ها خالیه</td><td>دامنه هنوز یاد گرفته نشده. صفحه‌ی <code class="i">/dashboard/</code> رو یک بار با همون آدرس نهایی باز کن و ۳۰ ثانیه صبر کن.</td></tr>
+  <tr><td>اتصال کانفیگ‌ها برقرار نمیشه</td><td>تو کلاینت «Fragment» یا «uTLS» رو امتحان کن و یک بار هم آدرس <code class="i">workers.dev</code> رو با دامنه‌ی اختصاصی عوض کن.</td></tr>
+</table>
+
+<div class="note">
+  <b>قبل از استفاده‌ی جدی این رو بدون</b>
+  هزینه‌ی Cloudflare Containers بر اساس زمان روشن بودن و حجم مصرف حساب میشه، پس ترافیک سنگین هزینه‌ی واقعی داره. شرایط استفاده‌ی Cloudflare رو هم درباره‌ی عبور ترافیک پروکسی از Workers و Containers خودت بخون و مسئولیتش با خودته.
+</div>
+
+<footer>این صفحه فقط از Worker سرو میشه و به پنل وابسته نیست، پس حتی وقتی کانتینر خاموشه هم باز میشه.</footer>
+
+</main>
+
+<script>
+  // کپی کد
+  document.querySelectorAll(".copy").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var t = b.parentElement.querySelector("pre").innerText.trim();
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () {
+        b.textContent = "کپی شد";
+        setTimeout(function () { b.textContent = "کپی"; }, 1500);
+      }).catch(function () { b.textContent = "دستی کپی کن"; });
+    });
+  });
+
+  // وضعیت کانتینر (بدون بیدار کردنش)
+  var st = document.getElementById("st"), stt = document.getElementById("stt");
+  function check() {
+    fetch("/helpsep/status", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
+      st.dataset.s = j.running ? "up" : "down";
+      stt.textContent = j.running ? "پنل روشنه" : "پنل خاموشه؛ با اولین بازدید یا cron بعدی بالا میاد";
+    }).catch(function () { st.dataset.s = "unknown"; stt.textContent = "وضعیت مشخص نشد"; });
+  }
+  check(); setInterval(check, 15000);
+</script>
+</body>
+</html>

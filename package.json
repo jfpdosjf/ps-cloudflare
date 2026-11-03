@@ -1,0 +1,17 @@
+{
+  "name": "sepnet-cf",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "logs": "wrangler tail",
+    "creds": "wrangler r2 object get sepnet-backup/meta/config.json --remote --pipe"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "latest"
+  },
+  "devDependencies": {
+    "wrangler": "latest"
+  }
+}

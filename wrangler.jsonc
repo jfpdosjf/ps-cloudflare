@@ -1,0 +1,32 @@
+{
+  "name": "sepnet",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "observability": { "enabled": true },
+
+  // هر دقیقه: کانتینر رو بیدار نگه می‌داره و از دیتابیس بکاپ می‌گیره
+  "triggers": { "crons": ["* * * * *"] },
+
+  "containers": [
+    {
+      "class_name": "Panel",
+      "image": "./container/Dockerfile",
+      "image_build_context": "./container",
+      "max_instances": 1,
+      // اگه موقع دیپلوی این مقدار رد شد، بذار "basic" (حافظه‌ی کمتر)
+      "instance_type": "standard-1"
+    }
+  ],
+
+  "durable_objects": {
+    "bindings": [{ "name": "PANEL", "class_name": "Panel" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Panel"] }],
+
+  // بکاپ دیتابیس + رمز اولیه
+  "r2_buckets": [{ "binding": "BACKUP", "bucket_name": "sepnet-backup" }]
+
+  // دامنه‌ی اختصاصی (پیشنهادی): این بخش رو از کامنت دربیار و دامنه‌ات رو بذار
+  // ,"routes": [{ "pattern": "panel.example.com", "custom_domain": true }]
+}
